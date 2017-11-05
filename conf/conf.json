@@ -1,0 +1,24 @@
+{
+	"source": {
+		"mysql": {
+			"host": "127.0.0.1",
+			"port": "3306",
+			"username": "homestead",
+			"password": "secret",
+			"database": "homestead",
+			"tablename": "test",
+			"columns": [ "i1", "i2", "i3", "t1", "v1"]
+		}
+	},
+	"target": {
+		"mysql": {
+			"host": "127.0.0.1",
+			"port": "3306",
+			"username": "homestead",
+			"password": "secret",
+			"database": "yii2base",
+			"tablename": "test",
+			"columns": [ "i1", "i2", "i3", "t1", "v1"]
+		}
+	}
+}
