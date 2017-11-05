@@ -6,46 +6,43 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"lib/common"
-	"lib/source"
-	"lib/target"
+	"lib/resource"
 )
 
 func main() {
-	strJson, err := ioutil.ReadFile("./conf/conf.json")
+	strJson, err := ioutil.ReadFile("../../conf/conf.json")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	var conf common.ConfRoot
-	if err = json.Unmarshal(strJson, &conf); err != nil {
+	var mapJson = make(map[string]map[string]resource.RsConf)
+	if err = json.Unmarshal(strJson, &mapJson); err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	sourceDb, err := common.GetDb(conf.Source.Mysql)
+	rsSource, err := resource.NewMysqlRs(mapJson["source"]["mysql"])
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	sql := fmt.Sprintf("select %s from %s",
-		strings.Join(conf.Source.Mysql.Columns, ","),
-		conf.Source.Mysql.Tablename)
+		strings.Join(mapJson["source"]["mysql"].Columns, ","),
+		mapJson["source"]["mysql"].Tablename)
 
-	records, err := source.GetData(sourceDb, sql)
+	records, err := rsSource.GetData(sql)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	targetDb, err := common.GetDb(conf.Target.Mysql)
+	rsTarget, err := resource.NewMysqlRs(mapJson["target"]["mysql"])
+	err = rsTarget.WriteData(mapJson["target"]["mysql"].Tablename, mapJson["target"]["mysql"].Columns, records)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
-	target.WriteData(targetDb, conf.Target.Mysql.Tablename, conf.Target.Mysql.Columns, records)
 
 }
