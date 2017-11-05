@@ -21,8 +21,12 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+	var rs resource.Resource
 
 	rsSource, err := resource.NewMysqlRs(mapJson["source"]["mysql"])
+	rs = rsSource
+	fmt.Println(rs)
+
 	if err != nil {
 		fmt.Println(err)
 		return

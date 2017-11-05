@@ -12,5 +12,5 @@ type RsConf struct {
 
 type Resource interface {
 	GetData(dql string) ([]map[string]string, error)
-	WriteData(cols []string, data []map[string]string) error
+	WriteData(targetName string, cols []string, data []map[string]string) error
 }
