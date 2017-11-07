@@ -1,4 +1,5 @@
 {
+
 	"source": {
 		"mysql": {
 			"host": "127.0.0.1",
@@ -7,7 +8,8 @@
 			"password": "secret",
 			"database": "homestead",
 			"tablename": "test",
-			"columns": [ "i1", "i2", "i3", "t1", "v1"]
+			"columns": [ "i1", "i2", "i3", "t1", "v1"],
+			"ext": "x"
 		}
 	},
 	"target": {
@@ -18,6 +20,10 @@
 			"password": "secret",
 			"database": "yii2base",
 			"tablename": "test",
+			"columns": [ "i1", "i2", "i3", "t1", "v1"]
+		},
+		"xlsx": {
+			"tablename": "test.xlsx",
 			"columns": [ "i1", "i2", "i3", "t1", "v1"]
 		}
 	}

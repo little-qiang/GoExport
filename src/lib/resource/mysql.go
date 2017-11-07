@@ -10,10 +10,10 @@ import (
 )
 
 type MysqlRs struct {
-	Db *sql.DB
+	db *sql.DB
 }
 
-func NewMysqlRs(conf RsConf) (*MysqlRs, error) {
+func NewMysqlRs(conf RsConf) *MysqlRs {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 		conf.Username,
 		conf.Password,
@@ -21,11 +21,11 @@ func NewMysqlRs(conf RsConf) (*MysqlRs, error) {
 		conf.Port,
 		conf.Database)
 	db, _ := sql.Open("mysql", dsn)
-	return &MysqlRs{db}, nil
+	return &MysqlRs{db}
 }
 
 func (rs MysqlRs) GetData(strSql string) ([]map[string]string, error) {
-	rows, err := rs.Db.Query(strSql)
+	rows, err := rs.db.Query(strSql)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func (rs MysqlRs) WriteData(targetName string, cols []string, records []map[stri
 			strSql.WriteString(strVals.String())
 			strSql.WriteString(";")
 
-			if rt, err := rs.Db.Exec(strSql.String()); err != nil {
+			if rt, err := rs.db.Exec(strSql.String()); err != nil {
 				return err
 			} else {
 				affectedRows, _ := rt.RowsAffected()
