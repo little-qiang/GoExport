@@ -41,7 +41,8 @@ func main() {
 			strings.Join(mapJson["source"]["mysql"].Columns, ","),
 			mapJson["source"]["mysql"].Tablename)
 	case "xlsx":
-		fmt.Println("sdd")
+		rsSource = new(resource.XlsxRs)
+		dql = mapJson["source"]["xlsx"].Tablename
 	default:
 		fmt.Println("error source")
 		return
@@ -56,7 +57,6 @@ func main() {
 		fmt.Println("error target")
 		return
 	}
-
 	//读取数据
 	records, err := rsSource.GetData(dql)
 	if err != nil {

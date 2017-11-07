@@ -1,7 +1,6 @@
 package resource
 
 import (
-	"fmt"
 	"github.com/tealeg/xlsx"
 )
 
@@ -13,15 +12,27 @@ func (rs XlsxRs) GetData(targetName string) ([]map[string]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	var cols []string
+	records := make([]map[string]string, 0)
+
 	for _, sheet := range file.Sheets {
-		for _, row := range sheet.Rows {
-			for _, cell := range row.Cells {
-				text := cell.String()
-				fmt.Printf("%s\n", text)
+		for i, row := range sheet.Rows {
+			//第一次循环，生成列名
+			if i == 0 {
+				cols = make([]string, len(row.Cells), len(row.Cells))
+				for j, cell := range row.Cells {
+					cols[j] = cell.String()
+				}
+				continue
 			}
+			record := make(map[string]string)
+			for j, cell := range row.Cells {
+				record[cols[j]] = cell.String()
+			}
+			records = append(records, record)
 		}
 	}
-	return nil, nil
+	return records, nil
 }
 
 func (rs XlsxRs) WriteData(targetName string, cols []string, data []map[string]string) error {

@@ -10,6 +10,10 @@
 			"tablename": "test",
 			"columns": [ "i1", "i2", "i3", "t1", "v1"],
 			"ext": "x"
+		},
+		"xlsx": {
+			"tablename": "test.xlsx",
+			"columns": [ "i1", "i2", "i3", "t1", "v1"]
 		}
 	},
 	"target": {
